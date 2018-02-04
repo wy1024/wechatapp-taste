@@ -1116,9 +1116,6 @@ Page({
         totalPrice: 0,// 总价格
         totalCount: 0, // 总商品数
         carArray: [],
-        minPrice: 20,//起送價格
-        payDesc: '',
-        deliveryPrice: 4,//配送費
         fold: true,
         selectFoods: [{ price: 20, count: 2 }],
         cartShow: 'none'
@@ -1146,6 +1143,7 @@ Page({
         console.log(this.data.toView);
     },
     //移除商品
+    // 有bug
     decreaseCart: function (e) {
         var index = e.currentTarget.dataset.itemIndex;
         var parentIndex = e.currentTarget.dataset.parentindex;
@@ -1158,20 +1156,20 @@ Page({
                     var price = this.data.goods[parentIndex].foods[index].price;
                     var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
                     var carArray1 = this.data.carArray.filter(item => item.mark != mark);
-                    carArray1.push(obj);
+                    //carArray1.push(obj);
                     console.log(carArray1);
                     this.setData({
                         carArray: carArray1,
                         goods: this.data.goods
                     })
                     this.calTotalPrice()
-                    this.setData({
-                        payDesc: this.payDesc()
-                    })
+                    // this.setData({
+                    //     payDesc: this.payDesc()
+                    // })
                 }
                 if (num > 0) {
                     var carArray1 = this.data.carArray.filter(item => item.num > 0)
-                    console.log(carArray1)
+                    //console.log(carArray1)
                     this.setData({
                         carArray: carArray1,
                     })
@@ -1200,9 +1198,9 @@ Page({
             goods: this.data.goods
         })
         this.calTotalPrice();
-        this.setData({
-            payDesc: this.payDesc()
-        })
+        // this.setData({
+        //     payDesc: this.payDesc()
+        // })
     },
     addShopCart: function (e) {
         this.addCart(e);
@@ -1281,9 +1279,9 @@ Page({
     },
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
-        this.setData({
-            payDesc: this.payDesc()
-        });
+        // this.setData({
+        //     payDesc: this.payDesc()
+        // });
     },
     onReady: function () {
         // 页面渲染完成

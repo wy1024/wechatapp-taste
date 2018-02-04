@@ -1,6 +1,19 @@
 <!--pages/order/order.wxml-->
+<swiper indicator-dots="true" autoplay="true" interval="5000">
+        <swiper-item>
+            <image id="7" src="http://fuss10.elemecdn.com/6/72/cb844f0bb60c502c6d5c05e0bddf5jpeg.jpeg?imageView2/1/w/750/h/750" data-postId="3"></image>
+        </swiper-item>
+        <swiper-item>
+            <image src="http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/750/h/750" data-postId="4"></image>
+        </swiper-item>
+        <swiper-item>
+            <image src="http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/750/h/750" data-postId="5"></image>
+        </swiper-item>
+</swiper>
 <view class="goods">
+  
   <view class="menu-wrapper">
+  
     <scroll-view scroll-y="true" style="height: 450px;">
       <view wx:for="{{goods}}" class="menu-item border-1px" bindtap="selectMenu" data-item-index="{{index}}">
         <view class="text">
