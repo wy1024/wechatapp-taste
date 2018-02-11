@@ -4,11 +4,21 @@
   display: flex;
   position: absolute;
   width: 100%;
-  top: 174px;
-  bottom: 46px;
+  top: 420rpx;
+  bottom: 100rpx;
   overflow: hidden;
   font-family:"微软雅黑";
 }
+
+ swiper{
+     width:100%;
+     height:420rpx;
+ }
+ /*less sass*/
+ swiper image{
+     width:100%;
+     height:420rpx;
+ }
 
 .goods .menu-wrapper {
   flex: 0 0 80px;
@@ -359,7 +369,7 @@
   height: 40px;
   line-height: 40px;
   padding: 0 18px;
-  background: #f3f5f7;
+  background: rgb(191, 190, 190);
   border-bottom: 1px solid rgba(7, 17, 27, 0.1);
 }
 
