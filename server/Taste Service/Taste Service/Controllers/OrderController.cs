@@ -27,19 +27,18 @@ namespace Taste_Service.Controllers
         }
 
         [HttpGet]
-        [Route("order/{userid}")]
-        public async Task<JsonResult<List<Restaurant>>> GetOrdersForUser(string userid)
+        [Route("orders/{userid}")]
+        public async Task<JsonResult<List<Order>>> GetOrdersForUser(string userid)
         {
-            var restaurants = new List<Restaurant>();
+            var orders = new List<Order>();
             using (SqlConnection connection = new SqlConnection(DbConnectionString))
             {
                 await connection.OpenAsync();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT *");
-                sb.Append("FROM dbo.users");
-                sb.Append("JOIN dbo.orders ON users.userid = orders.userid");
-
-                sb.Append($"WHERE UserId = '{userid}';");
+                sb.Append("SELECT Orders.DateTime, Orders.Details");
+                sb.Append("FROM Orders");
+                sb.Append("JOIN Users ON Users.Id = Orders.UserId");
+                sb.Append($"WHERE Users.UserId = '{userid}';");
 
                 String sql = sb.ToString();
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -48,20 +47,50 @@ namespace Taste_Service.Controllers
                     {
                         while (reader.Read())
                         {
-                            var restaurant = new Restaurant
+                            var order = new Order
                             {
-                                Name = reader.GetString(1),
-                                Location = reader.GetString(2),
-                                Phone = reader.GetString(3),
-                                Owner = reader.GetString(4),
-                                //Image = reader.GetStream(5)
+                                DateTime = reader.GetDateTime(0),
+                                Details = reader.GetString(1)
                             };
-                            restaurants.Add(restaurant);
+                            orders.Add(order);
                         }
                     }
                 }
             }
-            return Json(restaurants);
+            return Json(orders);
+        }
+
+        [HttpGet]
+        [Route("order/{orderid}")]
+        public async Task<JsonResult<Order>> GetOrder(string orderid)
+        {
+            Order order = null;
+            using (SqlConnection connection = new SqlConnection(DbConnectionString))
+            {
+                await connection.OpenAsync();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT Orders.DateTime, Orders.Details ");
+                sb.Append("FROM Orders ");
+                sb.Append("JOIN Users ON Users.Id = Orders.UserId ");
+                sb.Append($"WHERE Orders.Id = '{orderid}';");
+
+                String sql = sb.ToString();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            order = new Order
+                            {
+                                DateTime = reader.GetDateTime(0),
+                                Details = reader.GetString(1)
+                            };
+                        }
+                    }
+                }
+            }
+            return Json(order);
         }
     }
 }

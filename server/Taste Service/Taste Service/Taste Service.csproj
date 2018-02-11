@@ -186,6 +186,7 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Dish.cs" />
     <Compile Include="Models\DishesGroup.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

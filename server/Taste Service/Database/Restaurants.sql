@@ -5,5 +5,5 @@
     [Location] NVARCHAR(MAX) NULL, 
     [Phone] NVARCHAR(20) NULL, 
     [Owner] NVARCHAR(40) NULL, 
-    [Image] VARBINARY(MAX) NOT NULL
+    [Image] VARBINARY(MAX) NULL
 )

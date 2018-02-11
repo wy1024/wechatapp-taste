@@ -4,6 +4,7 @@
     [RestaurantId] INT NOT NULL, 
     [CuisineId] INT NOT NULL, 
     [Name] NVARCHAR(MAX) NOT NULL, 
+	[Description] NVARCHAR(MAX) NULL,
     [Flavors] NVARCHAR(MAX) NULL, 
     [Ingredients] NVARCHAR(MAX) NULL, 
     [Category] NVARCHAR(MAX) NULL, 

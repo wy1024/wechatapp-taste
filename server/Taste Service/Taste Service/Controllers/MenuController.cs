@@ -31,13 +31,13 @@ namespace Taste_Service.Controllers
         [Route("menu/{restaurantId}")]
         public async Task<JsonResult<List<DishesGroup>>> GetMenuForRestaurant(string restaurantId)
         {
-            List<DishesGroup> result = null;
+            var result = new List<DishesGroup>();
             var dishes = new List<Dish>();
             using (SqlConnection connection = new SqlConnection(DbConnectionString))
             {
                 await connection.OpenAsync();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT *");
+                sb.Append("SELECT * ");
                 sb.Append($"FROM Dishes WHERE RestaurantId = {restaurantId};");
 
                 using (SqlCommand command = new SqlCommand(sb.ToString(), connection))
@@ -49,11 +49,12 @@ namespace Taste_Service.Controllers
                             var dish = new Dish
                             {
                                 Name = reader.GetString(3),
-                                Flavor = reader.GetString(4),
-                                Ingredients = reader.GetString(5),
-                                Category = reader.GetString(6),
-                                Price = reader.GetFloat(7),
-                                Image = reader.GetStream(8)
+                                Description = reader.GetString(4),
+                                Flavor = reader.GetString(5),
+                                Ingredients = reader.GetString(6),
+                                Category = reader.GetString(7),
+                                Price = reader.GetDouble(8),
+                                //Image = reader.GetStream(9)
                             };
                             dishes.Add(dish);
                         }
@@ -77,6 +78,8 @@ namespace Taste_Service.Controllers
                 {
                     result.Add(group);
                     group.Dishes = new List<Dish>() { currentDish };
+                    group.Category = category;
+                    createdCategories.Add(category);
                 }
 
             }

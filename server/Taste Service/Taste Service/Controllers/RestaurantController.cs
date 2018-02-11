@@ -35,7 +35,7 @@ namespace Taste_Service.Controllers
             {
                 await connection.OpenAsync();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT *");
+                sb.Append("SELECT * ");
                 sb.Append("FROM dbo.restaurants;");
 
                 String sql = sb.ToString();
@@ -70,8 +70,8 @@ namespace Taste_Service.Controllers
             {
                 await connection.OpenAsync();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT *");
-                sb.Append("FROM dbo.restaurants;");
+                sb.Append("SELECT * ");
+                sb.Append("FROM dbo.restaurants ");
                 sb.Append($"WHERE Id = {id};");
 
                 String sql = sb.ToString();
