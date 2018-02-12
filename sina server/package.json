@@ -1,0 +1,20 @@
+{
+  "name": "tasteservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.sinacloud.com/tasteservice"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mssql": "^4.1.0",
+    "tedious": "^2.2.4"
+  }
+}
