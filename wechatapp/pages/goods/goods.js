@@ -1,6 +1,10 @@
 // pages/goods/goods.js
+const util = require('../../utils/util.js');
+
 Page({
     data: {
+
+
         goods: [
             {
                 "name": "热销榜",
@@ -1143,39 +1147,39 @@ Page({
         console.log(this.data.toView);
     },
     //移除商品
-    // 有bug
     decreaseCart: function (e) {
         var index = e.currentTarget.dataset.itemIndex;
         var parentIndex = e.currentTarget.dataset.parentindex;
-        this.data.goods.forEach((good) => {
-            good.foods.forEach((food) => {
-                var num = this.data.goods[parentIndex].foods[index].Count;
-                var mark = 'a' + index + 'b' + parentIndex
-                if (food.Count > 0) {
-                    this.data.goods[parentIndex].foods[index].Count--
-                    var price = this.data.goods[parentIndex].foods[index].price;
-                    var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
-                    var carArray1 = this.data.carArray.filter(item => item.mark != mark);
-                    //carArray1.push(obj);
-                    console.log(carArray1);
-                    this.setData({
-                        carArray: carArray1,
-                        goods: this.data.goods
-                    })
-                    this.calTotalPrice()
-                    // this.setData({
-                    //     payDesc: this.payDesc()
-                    // })
-                }
-                if (num > 0) {
-                    var carArray1 = this.data.carArray.filter(item => item.num > 0)
-                    //console.log(carArray1)
-                    this.setData({
-                        carArray: carArray1,
-                    })
-                }
-            })
-        })
+        var num = this.data.goods[parentIndex].foods[index].Count;
+        var name = this.data.goods[parentIndex].foods[index].name;
+        var mark = 'a' + index + 'b' + parentIndex;
+        if (num > 0) {
+          this.data.goods[parentIndex].foods[index].Count--;
+          var price = this.data.goods[parentIndex].foods[index].price;
+          num--;
+          
+          var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
+          var carArray1 = [];
+          var position = 0;
+          for(var i = 0; i < this.data.carArray.length; i++){
+            if(this.data.carArray[i].mark == mark){
+              position = i;
+            }else{
+              carArray1.push(this.data.carArray[i]);
+            }
+          }
+          if(num != 0){
+             carArray1.splice(position,0,obj);
+          }
+
+          
+          this.setData({
+            carArray: carArray1,
+            goods: this.data.goods
+          })
+          this.calTotalPrice();
+        }
+        
     },
     decreaseShopCart: function (e) {
         this.decreaseCart(e);
@@ -1185,13 +1189,14 @@ Page({
         var index = e.currentTarget.dataset.itemIndex;
         var parentIndex = e.currentTarget.dataset.parentindex;
         this.data.goods[parentIndex].foods[index].Count++;
-        var mark = 'a' + index + 'b' + parentIndex
+        var mark = 'a' + index + 'b' + parentIndex;
         var price = this.data.goods[parentIndex].foods[index].price;
         var num = this.data.goods[parentIndex].foods[index].Count;
         var name = this.data.goods[parentIndex].foods[index].name;
         var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
-        var carArray1 = this.data.carArray.filter(item => item.mark != mark)
-        carArray1.push(obj)
+        console.log(mark);
+        var carArray1 = this.data.carArray.filter(item => item.mark != mark);
+        carArray1.push(obj);
         console.log(carArray1);
         this.setData({
             carArray: carArray1,
@@ -1277,11 +1282,30 @@ Page({
         // }
         return show;
     },
+
+    fetchData: function(){
+      var promise = new Promise(function (resolve, reject) {
+        wx.request({
+          url: "https://tasteservice.applinzi.com",
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json'
+          },
+          success: resolve,
+          fail: reject
+        })
+      });
+      return promise;
+    },
+
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
-        // this.setData({
-        //     payDesc: this.payDesc()
-        // });
+        
+      this.fetchData().then(function (result) {
+
+        console.log(result);
+
+      });
     },
     onReady: function () {
         // 页面渲染完成

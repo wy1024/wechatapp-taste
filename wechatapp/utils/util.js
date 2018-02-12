@@ -19,3 +19,22 @@ function formatNumber(n) {
 module.exports = {
   formatTime: formatTime
 }
+
+const API_URL = "http://tasteservice.azurewebsites.net/api/menu";
+
+function fetchData(){
+  var promise = new Promise(function(resolve, reject){
+    wx.request({
+      url: API_URL,
+      data: {
+        id:"2",
+      },
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: resolve,
+      fail: reject
+    })
+  });
+  return promise;
+}
