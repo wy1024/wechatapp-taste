@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Restaurants]
 (
-	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[Id] int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[CloverId] NVARCHAR(MAX) NOT NULL,
     [Name] NVARCHAR(100) NOT NULL, 
     [Location] NVARCHAR(MAX) NULL, 
     [Phone] NVARCHAR(20) NULL, 

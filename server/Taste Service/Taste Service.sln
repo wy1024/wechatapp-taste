@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taste Service", "Taste Service\Taste Service.csproj", "{F2BFA826-BB91-4FBA-8AC5-1626CB6F685B}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{19321F4C-DE05-4135-93A7-AF33174C4CC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduledRunner", "ScheduledRunner\ScheduledRunner.csproj", "{AAAADE24-BE38-4657-B0AF-9C5D73ACD375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{19321F4C-DE05-4135-93A7-AF33174C4CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19321F4C-DE05-4135-93A7-AF33174C4CC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19321F4C-DE05-4135-93A7-AF33174C4CC6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AAAADE24-BE38-4657-B0AF-9C5D73ACD375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAAADE24-BE38-4657-B0AF-9C5D73ACD375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAAADE24-BE38-4657-B0AF-9C5D73ACD375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAAADE24-BE38-4657-B0AF-9C5D73ACD375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,6 @@
     [RestaurantId] INT NOT NULL,
     [RestaurantName] NVARCHAR(MAX),
 	[Details] NVARCHAR(MAX) NOT NULL,
-	CONSTRAINT [FK_OrderDetails_ToRestaurant] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurants]([id]), 
-	CONSTRAINT [FK_Orders_ToUser] FOREIGN KEY ([Userid]) REFERENCES [Users]([id]),
+	CONSTRAINT [FK_OrderDetails_ToRestaurant] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurants]([Id]), 
+	CONSTRAINT [FK_Orders_ToUser] FOREIGN KEY ([Userid]) REFERENCES [Users]([Id]),
 )
