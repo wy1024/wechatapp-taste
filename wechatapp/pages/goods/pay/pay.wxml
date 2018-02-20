@@ -3,7 +3,11 @@
        <icon type="{{resultType}}" size="72"></icon>
     </view>
     <view class="result_content">{{resultContent}}</view>
-    <navigator url="{{url}}">
+    <navigator url="{{url}}"> <!--查看订单需要把数据传输到下一个页面-->
         <text class="result_to_order" >查看订单</text>
     </navigator>
+    <navigator url="../goods"> <!--加菜需要把数据传递回去-->
+      <text class="result_to_order" >加菜</text>
+    </navigator>
+    <text class="result_to_order" >买单</text>
 </view>

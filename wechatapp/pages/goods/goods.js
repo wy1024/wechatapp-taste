@@ -1,6 +1,10 @@
 // pages/goods/goods.js
+
+
 Page({
     data: {
+
+
         goods: [
             {
                 "name": "热销榜",
@@ -1143,39 +1147,39 @@ Page({
         console.log(this.data.toView);
     },
     //移除商品
-    // 有bug
     decreaseCart: function (e) {
         var index = e.currentTarget.dataset.itemIndex;
         var parentIndex = e.currentTarget.dataset.parentindex;
-        this.data.goods.forEach((good) => {
-            good.foods.forEach((food) => {
-                var num = this.data.goods[parentIndex].foods[index].Count;
-                var mark = 'a' + index + 'b' + parentIndex
-                if (food.Count > 0) {
-                    this.data.goods[parentIndex].foods[index].Count--
-                    var price = this.data.goods[parentIndex].foods[index].price;
-                    var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
-                    var carArray1 = this.data.carArray.filter(item => item.mark != mark);
-                    //carArray1.push(obj);
-                    console.log(carArray1);
-                    this.setData({
-                        carArray: carArray1,
-                        goods: this.data.goods
-                    })
-                    this.calTotalPrice()
-                    // this.setData({
-                    //     payDesc: this.payDesc()
-                    // })
-                }
-                if (num > 0) {
-                    var carArray1 = this.data.carArray.filter(item => item.num > 0)
-                    //console.log(carArray1)
-                    this.setData({
-                        carArray: carArray1,
-                    })
-                }
-            })
-        })
+        var num = this.data.goods[parentIndex].foods[index].Count;
+        var name = this.data.goods[parentIndex].foods[index].name;
+        var mark = 'a' + index + 'b' + parentIndex;
+        if (num > 0) {
+          this.data.goods[parentIndex].foods[index].Count--;
+          var price = this.data.goods[parentIndex].foods[index].price;
+          num--;
+          
+          var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
+          var carArray1 = [];
+          var position = 0;
+          for(var i = 0; i < this.data.carArray.length; i++){
+            if(this.data.carArray[i].mark == mark){
+              position = i;
+            }else{
+              carArray1.push(this.data.carArray[i]);
+            }
+          }
+          if(num != 0){
+             carArray1.splice(position,0,obj);
+          }
+
+          
+          this.setData({
+            carArray: carArray1,
+            goods: this.data.goods
+          })
+          this.calTotalPrice();
+        }
+        
     },
     decreaseShopCart: function (e) {
         this.decreaseCart(e);
@@ -1185,13 +1189,25 @@ Page({
         var index = e.currentTarget.dataset.itemIndex;
         var parentIndex = e.currentTarget.dataset.parentindex;
         this.data.goods[parentIndex].foods[index].Count++;
-        var mark = 'a' + index + 'b' + parentIndex
+        var mark = 'a' + index + 'b' + parentIndex;
         var price = this.data.goods[parentIndex].foods[index].price;
         var num = this.data.goods[parentIndex].foods[index].Count;
         var name = this.data.goods[parentIndex].foods[index].name;
         var obj = { price: price, num: num, mark: mark, name: name, index: index, parentIndex: parentIndex };
-        var carArray1 = this.data.carArray.filter(item => item.mark != mark)
-        carArray1.push(obj)
+        
+        var carArray1 = [];
+        var position = 0;
+        for (var i = 0; i < this.data.carArray.length; i++) {
+          if (this.data.carArray[i].mark == mark) {
+            position = i;
+          } else {
+            carArray1.push(this.data.carArray[i]);
+          }
+        }
+        if (num != 0) {
+          carArray1.splice(position, 0, obj);
+        }
+
         console.log(carArray1);
         this.setData({
             carArray: carArray1,
@@ -1208,30 +1224,52 @@ Page({
     //计算总价
     calTotalPrice: function () {
         var carArray = this.data.carArray;
-        var totalPrice = 0;
-        var totalCount = 0;
+        var price = 0;
+        var count = 0;
         for (var i = 0; i < carArray.length; i++) {
-            totalPrice += carArray[i].price * carArray[i].num;
-            totalCount += carArray[i].num
+            price += carArray[i].price * carArray[i].num;
+            count += carArray[i].num
         }
+        this.totalPrice = price;
+        this.totalCount = count;
         this.setData({
-            totalPrice: totalPrice,
-            totalCount: totalCount,
+            totalPrice: price,
+            totalCount: count,
             //payDesc: this.payDesc()
         });
+    },
+
+    empty:function() {
+      var carArray = [];
+      
+      for(var i = 0; i < this.data.goods.length; i++){
+        for(var j = 0; j < this.data.goods[i].foods.length; j++){
+          this.data.goods[i].foods[j].Count = 0;
+        }
+      }
+      this.totalPrice = 0;
+      this.totalCount = 0;
+      this.setData({
+        carArray : carArray,
+        totalPrice: 0,
+        totalCount: 0,
+        goods: this.data.goods
+      });
     },
     
     //結算
     pay() {
-        if (this.data.totalPrice < this.data.minPrice) {
-            return;
-        }
-        // window.alert('支付' + this.totalPrice + '元');
-        //确认支付逻辑
+      wx.showToast({
+        title: '送厨房！',
+      })
+      //确认支付逻辑
+      setTimeout(function () {
         var resultType = "success";
         wx.redirectTo({
-            url: '../goods/pay/pay?resultType=' + resultType
-        })
+          url: '../goods/pay/pay?resultType=' + resultType
+        });
+      }, 1000);
+          
     },
     //彈起購物車
     toggleList: function () {
@@ -1277,11 +1315,30 @@ Page({
         // }
         return show;
     },
+
+    // fetchData: function(){
+    //   var promise = new Promise(function (resolve, reject) {
+    //     wx.request({
+    //       url: "https://tasteservice.applinzi.com",
+    //       method: "GET",
+    //       header: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       success: resolve,
+    //       fail: reject
+    //     })
+    //   });
+    //   return promise;
+    // },
+
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
-        // this.setData({
-        //     payDesc: this.payDesc()
-        // });
+        
+      // this.fetchData().then(function (result) {
+
+      //   console.log(result);
+
+      // });
     },
     onReady: function () {
         // 页面渲染完成
