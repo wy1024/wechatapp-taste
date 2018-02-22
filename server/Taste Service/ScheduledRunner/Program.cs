@@ -56,6 +56,11 @@ namespace ScheduledRunner
                     var favIngredients = string.Join(",", new HashSet<string>(res.Value.Item2).ToArray());
                     var favCuisines = string.Join(",", new HashSet<int>(res.Value.Item3).ToArray());
 
+                    using (SqlCommand command = new SqlCommand($"DELETE FROM dbo.Preference WHERE UserId = {userid}", connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+
                     using (SqlCommand command = new SqlCommand($"INSERT INTO dbo.Preference VALUES ({userid}, {favCuisines}, '{favIngredients}', '{favCuisines}')", connection))
                     {
                         await command.ExecuteNonQueryAsync();

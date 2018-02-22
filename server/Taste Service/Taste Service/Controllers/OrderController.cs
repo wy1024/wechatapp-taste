@@ -35,27 +35,27 @@ namespace Taste_Service.Controllers
             {
                 await connection.OpenAsync();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT Orders.DateTime, Orders.Details");
-                sb.Append("FROM Orders");
-                sb.Append("JOIN Users ON Users.Id = Orders.UserId");
+                sb.Append("SELECT Orders.DateTime, Orders.Details ");
+                sb.Append("FROM Orders ");
+                sb.Append("JOIN Users ON Users.Id = Orders.UserId ");
                 sb.Append($"WHERE Users.UserId = '{userid}';");
 
-                String sql = sb.ToString();
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        while (reader.Read())
-                        {
-                            var order = new Order
-                            {
-                                DateTime = reader.GetDateTime(0),
-                                Details = reader.GetString(1)
-                            };
-                            orders.Add(order);
-                        }
-                    }
-                }
+                //String sql = sb.ToString();
+                //using (SqlCommand command = new SqlCommand(sql, connection))
+                //{
+                //    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                //    {
+                //        while (reader.Read())
+                //        {
+                //            var order = new Order
+                //            {
+                //                DateTime = reader.GetDateTime(0),
+                //                Details = reader.GetString(1)
+                //            };
+                //            orders.Add(order);
+                //        }
+                //    }
+                //}
             }
             return Json(orders);
         }
