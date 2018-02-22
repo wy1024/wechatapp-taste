@@ -31,7 +31,37 @@ namespace ScheduledRunner
             var preferenceSetter = new PreferenceSetter();
             var v = preferenceSetter.GetOrders();
             var result = preferenceSetter.SummarizePreference(v);
+            SavePreferenceToDb(result).Wait();
             // set result to sql
+        }
+
+        private static async Task SavePreferenceToDb(Dictionary<int, Tuple<List<string>, List<string>, List<int>>> result)
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
+            {
+                DataSource = Constants.DbConnectionString,
+                UserID = Constants.DbUsername,
+                Password = Constants.DbPassword,
+                InitialCatalog = Constants.DbCatalog
+            };
+            var DbConnectionString = builder.ConnectionString;
+            using (SqlConnection connection = new SqlConnection(DbConnectionString))
+            {
+                await connection.OpenAsync();
+
+                foreach (var res in result)
+                {
+                    var userid = res.Key;
+                    var favFlavors = string.Join(",", new HashSet<string>(res.Value.Item1).ToArray());
+                    var favIngredients = string.Join(",", new HashSet<string>(res.Value.Item2).ToArray());
+                    var favCuisines = string.Join(",", new HashSet<int>(res.Value.Item3).ToArray());
+
+                    using (SqlCommand command = new SqlCommand($"INSERT INTO dbo.Preference VALUES ({userid}, {favCuisines}, '{favIngredients}', '{favCuisines}')", connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
         }
 
         private static async Task<List<int>> GetUsers()
