@@ -1273,14 +1273,11 @@ Page({
     },
     //彈起購物車
     toggleList: function () {
-        if (!this.data.totalCount) {
-            return;
-        }
+        
         this.setData({
             fold: !this.data.fold,
         })
         var fold = this.data.fold
-        //console.log(this.data.fold);
         this.cartShow(fold)
     },
     cartShow: function (fold) {

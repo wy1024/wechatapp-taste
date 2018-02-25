@@ -81,12 +81,14 @@
             <text class="empty" bindtap="empty">清空</text>
           </view>
           <view class="list-content">
+          <!--add scroll view-->
+          <scroll-view scroll-y="true" style='height: 125px;' >
             <view class="shopcart-food" wx:for="{{carArray}}">
               <text class="name">{{item.name}}</text>
               <view class="price">
                 <span>￥{{item.price*item.num}}</span>
               </view>
-
+          
               <!--cartControl-->
               <view class="cartControl-wrapper" style="bottom:10px;">
                 <view class="cartControl" style="width:80px;">
@@ -100,6 +102,7 @@
                 </view>
               </view>
             </view>
+            </scroll-view>
           </view>
         </view>
       </view>
