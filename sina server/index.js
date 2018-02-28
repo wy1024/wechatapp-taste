@@ -89,6 +89,71 @@ app.post('/api/menu/:restaurantId', function (req, res) {
   }); 
 });
 
+
+app.post('/api/preference/:userId', function (req, res) {
+	var userId = req.params.userId;
+	if (!userId) {
+		res.send("Invalid userId");
+		return;
+	}
+
+	var request = new mssql.Request();
+  request.query('select * FROM dbo.preference where UserId = ' + userId, function (err, result) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+			var data = result.recordset[0];
+			res.send(data);
+			
+			var cuisines = data.Cuisine.split(',').map((word) => {
+				return "'" + word + "'";
+			}).join(',');
+			var dishes = data.Dishes.split(',').map((word) => {
+				return "'" + word + "'";
+			}).join(',');
+
+
+			var request2 = new mssql.Request();
+			var query2 = 'select * FROM dbo.cuisine where Name in (' + cuisines + ')';
+			request2.query(query2, function (err2, result2) {
+				if (err2) {
+					res.send(err2);
+					return;
+				}
+				var cuisineDetails = [];
+				var data2 = result2.recordset;
+				for(i=0;i<data2.length;i++){
+					cuisineDetails.push(data2[i]);
+				}
+
+				var request3 = new mssql.Request();
+				var query3 = 'select * FROM dbo.dishes where Name in (' + dishes + ')';
+				request3.query(query3, function (err3, result3) {
+					if (err3) {
+						res.send(err3);
+						return;
+					}
+					var dishesDetails = [];
+					var data3 = result3.recordset;
+					for(i=0;i<data3.length;i++){
+						dishesDetails.push(data3[i]);
+					}
+					var preference = {
+						userId: userId,
+						ingredients: data.Ingredients,
+						cuisine: cuisineDetails,
+						dishes: dishesDetails
+					}
+					
+					res.send(preference);
+				});
+
+			});   
+	}); 
+});
+
 app.get('/api/testtt', function (req, res) {
 	var http = require("https");
 
