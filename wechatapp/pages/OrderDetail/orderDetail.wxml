@@ -1,0 +1,10 @@
+<view class = "order">
+  <view class = "profile">
+    <image src='{{userInfo.avatarUrl}}' class = "profile-pic"></image>
+    <view class = "nickname">{{userInfo.nickName}}</view>
+  </view>
+  <view class = "infos">
+    <view class = "rest-name">渝天下</view>
+    <view class = "price">总价：100元</view>
+  </view>
+</view>

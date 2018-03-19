@@ -1259,16 +1259,18 @@ Page({
     
     //結算
     pay() {
-      wx.showToast({
-        title: '送厨房！',
-      })
       //确认支付逻辑
-      setTimeout(function () {
-        var resultType = "success";
-        wx.redirectTo({
-          url: '../goods/pay/pay?resultType=' + resultType
-        });
-      }, 1000);
+      if (this.totalCount != 0 && this.totalCount != null) {
+        wx.showToast({
+          title: '送厨房！',
+        })
+        setTimeout(function () {
+          var resultType = "success";
+          wx.redirectTo({
+            url: '../goods/pay/pay?resultType=' + resultType
+          });
+        }, 1000);
+      }
           
     },
     //彈起購物車
@@ -1299,17 +1301,6 @@ Page({
             return false;
         }
         let show = !this.fold;
-        // if (show) {
-        //     this.$nextTick(() => {
-        //         if (!this.scroll) {
-        //             this.scroll = new BScroll(this.$refs.listContent, {
-        //                 click: true
-        //             });
-        //         } else {
-        //             this.scroll.refresh();
-        //         }
-        //     });
-        // }
         return show;
     },
 
@@ -1330,6 +1321,8 @@ Page({
 
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
+
+       
         
       // this.fetchData().then(function (result) {
 

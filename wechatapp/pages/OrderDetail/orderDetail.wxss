@@ -1,0 +1,22 @@
+
+.profile-pic {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+}
+
+.profile{
+  margin: 15rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 2rpx solid grey;
+  margin: 40rpx;
+  border-radius: 30rpx;
+}
+
+.nickname {
+  flex-direction: row;
+  font-size: 50rpx;
+  margin-left: 45rpx;
+}

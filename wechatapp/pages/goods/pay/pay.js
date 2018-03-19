@@ -9,7 +9,7 @@ Page({
             this.setData({
                 resultType:"success",
                 resultContent:"订单已送厨房",
-                url:'../../order/list/list?status=tosend'
+                url:'/pages/OrderDetail/orderDetail'
             });
         }
     }
