@@ -1,10 +1,96 @@
-<view class = "order">
-  <view class = "profile">
-    <image src='{{userInfo.avatarUrl}}' class = "profile-pic"></image>
-    <view class = "nickname">{{userInfo.nickName}}</view>
+<view class="order">
+  <view class="profile">
+    <image src='{{userInfo.avatarUrl}}' class="profile-pic"></image>
+    <view class="nickname">{{userInfo.nickName}}</view>
   </view>
-  <view class = "infos">
-    <view class = "rest-name">渝天下</view>
-    <view class = "price">总价：100元</view>
+  <view class="infos">
+    <view class="rest-name">渝天下</view>
+    <view class="total-price">总价：100元</view>
   </view>
+  <scroll-view class="food-wrapper" style='height:500px' scroll-y="true">
+    <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">葱花饼</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥10&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">1</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/a/94/7371083792c19df00e546b29e344cjpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">田园蔬菜粥</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥8&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">1</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">牛肉馅饼</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥13&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">3</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/e/c6/f348e811772016ae24e968238bcbfjpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">VC无限橙果汁</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥5&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">10</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/6/54/f654985b4e185f06eb07f8fa2b2e8jpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">拍黄瓜</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥5&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">1</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/9/b5/469d8854f9a3a03797933fd01398bjpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">八宝酱菜</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥15&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">1</text>
+        </view>
+      </view>
+
+      <view class="food-item" >
+        <view class="icon">
+          <image src="http://fuss10.elemecdn.com/4/e7/8277a6a2ea0a2e97710290499fc41jpeg.jpeg?imageView2/1/w/114/h/114" style="width: 80px;height: 80px"></image>
+        </view>
+        <view class="content">
+          <view class="description">香酥黄金鱼/3条</view>
+          <text class="price" decode="{{true}}" space="{{true}}">￥33&nbsp;&nbsp;</text>
+          <text class='x'decode="{{true}}" space="{{true}}">x&nbsp;&nbsp;</text>
+          <text class="amount">1</text>
+        </view>
+      </view>
+
+  </scroll-view>
 </view>

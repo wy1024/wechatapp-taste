@@ -20,3 +20,63 @@
   font-size: 50rpx;
   margin-left: 45rpx;
 }
+
+.infos{
+  margin-left: 40rpx;
+  display: flex;
+}
+
+.restName{
+  flex-direction: row;
+}
+
+.total-price{
+  flex-direction: row;
+  margin-left: 300rpx;
+}
+
+.food-wrapper{
+  border-top:1px solid rgba(7,17,27,0.1);
+}
+
+.food-item {
+  display: flex;
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /*padding-bottom: 18px;*/
+  position: relative;
+  border-bottom:1px solid rgba(7,17,27,0.1);
+  align-items: center;
+}
+
+.food-item .content {
+  flex: 1;
+  display: flex;
+  margin-left: 25px;
+  font-size: 16px;
+}
+
+.food-item .content .description {
+  height: 45px;
+  width: 120px;
+  color: rgb(7, 17, 27);
+}
+
+
+.food-item .content .price {
+  flex-direction: row;
+  font-weight: 700px;
+  color: rgb(240, 20, 20);
+}
+
+.food-item .content .x{
+  flex-direction: row;
+  font-weight: 700px;
+}
+
+.food-item .content .amount{
+  flex-direction: row;
+  font-weight: 700px;
+}
