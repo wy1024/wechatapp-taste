@@ -54,6 +54,7 @@
     <Compile Include="Model\DishOrders.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\Restaurant.cs" />
+    <Compile Include="Preference.cs" />
     <Compile Include="PreferenceSetter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

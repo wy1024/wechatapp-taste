@@ -35,7 +35,7 @@ namespace ScheduledRunner
             // set result to sql
         }
 
-        private static async Task SavePreferenceToDb(Dictionary<int, Tuple<List<string>, List<string>, List<int>>> result)
+        private static async Task SavePreferenceToDb(Dictionary<int, Preference> result)
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
             {
@@ -52,16 +52,18 @@ namespace ScheduledRunner
                 foreach (var res in result)
                 {
                     var userid = res.Key;
-                    var favFlavors = string.Join(",", new HashSet<string>(res.Value.Item1).ToArray());
-                    var favIngredients = string.Join(",", new HashSet<string>(res.Value.Item2).ToArray());
-                    var favCuisines = string.Join(",", new HashSet<int>(res.Value.Item3).ToArray());
+                    var favFlavors = string.Join(",", new HashSet<string>(res.Value.Flavors).ToArray());
+                    var favIngredients = string.Join(",", new HashSet<string>(res.Value.Ingredients).ToArray());
+                    var favCuisines = string.Join(",", new HashSet<int>(res.Value.Cuisines).ToArray());
+                    var favDishes = string.Join(",", new HashSet<string>(res.Value.Dishes).ToArray());
 
                     using (SqlCommand command = new SqlCommand($"DELETE FROM dbo.Preference WHERE UserId = {userid}", connection))
                     {
                         await command.ExecuteNonQueryAsync();
                     }
 
-                    using (SqlCommand command = new SqlCommand($"INSERT INTO dbo.Preference VALUES ({userid}, {favCuisines}, '{favIngredients}', '{favCuisines}')", connection))
+                    // ingredients, cuisine, dishes, flavors
+                    using (SqlCommand command = new SqlCommand($"INSERT INTO dbo.Preference VALUES ({userid}, '{favIngredients}', '{favCuisines}', '{favDishes}', '{favFlavors}')", connection))
                     {
                         await command.ExecuteNonQueryAsync();
                     }

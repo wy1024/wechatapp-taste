@@ -61,7 +61,7 @@ namespace ScheduledRunner
             return userOrders;
         }
 
-        public Dictionary<int, Tuple<List<string>, List<string>, List<int>>> SummarizePreference(Dictionary<int, List<Order>> userOrders)
+        public Dictionary<int, Preference> SummarizePreference(Dictionary<int, List<Order>> userOrders)
         {
             // fetch all dish info
             // id -> dish
@@ -92,7 +92,7 @@ namespace ScheduledRunner
                 }
             }
 
-            var userPreferences = new Dictionary<int, Tuple<List<string>, List<string>, List<int>>>();
+            var userPreferences = new Dictionary<int, Preference>();
             foreach(var userOrder in userOrders)
             {
                 var user = userOrder.Key;
@@ -100,6 +100,7 @@ namespace ScheduledRunner
                 var favFlavors = new List<string>();
                 var favIngredients = new List<string>();
                 var favCuisines = new List<int>();
+                var favDishes = new List<string>();
 
                 foreach (var order in pastOrders)
                 {
@@ -112,10 +113,17 @@ namespace ScheduledRunner
                         favFlavors.Add(dishDetails.Flavors);
                         favIngredients.Add(dishDetails.Ingredients);
                         favCuisines.Add(dishDetails.Cuisine);
+                        favDishes.Add(dishDetails.Name);
                     }
                 }
 
-                userPreferences.Add(user, new Tuple<List<string>, List<string>, List<int>>(favFlavors, favIngredients, favCuisines));
+                userPreferences.Add(user, new Preference()
+                {
+                    Dishes = favDishes,
+                    Ingredients = favIngredients,
+                    Flavors = favFlavors,
+                    Cuisines = favCuisines
+                });
             }
 
             return userPreferences;
