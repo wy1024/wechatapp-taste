@@ -2,6 +2,8 @@ var express = require('express')
 var app = express()
 var mssql = require('mssql')
 var connection = require("./mssql");
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
 
 app.get('/', function (req, res) {
   res.send('Hello World');
@@ -127,6 +129,49 @@ app.post('/api/order/:orderId', function (req, res) {
 
       var data = result.recordset;
       res.send(data);      
+  }); 
+});
+
+app.post('/api/submit/order', jsonParser, function (req, res) {
+	var restaurantid = req.body.restaurantId;
+	var userid = req.body.userId;
+	var restaurantname = req.body.restaurantName
+	var details = req.body.details;
+	// DishId : "", Quantity: "4"
+
+	if (!restaurantid) {
+		res.send("Invalid restaurantid");
+		return;
+	} else if (!userid) {
+		res.send("Invalid userid");
+		return;
+	} else if (!restaurantname) {
+		res.send("invalid restaurantname");
+		return;
+	} else if (!details) {
+		res.send("invalid details")
+		return;
+	}
+
+	var detailsString = JSON.stringify(details);
+	var d = new Date();
+	var dateString = ("00" + (d.getMonth() + 1)).slice(-2) + "/" + 
+	("00" + d.getDate()).slice(-2) + "/" + 
+	d.getFullYear() + " " + 
+	("00" + d.getHours()).slice(-2) + ":" + 
+	("00" + d.getMinutes()).slice(-2) + ":" + 
+	("00" + d.getSeconds()).slice(-2) + ":000";
+
+	var insertStatement = `INSERT INTO dbo.Orders VALUES (${userid}, '${dateString}', ${restaurantid}, '${restaurantname}', '{details:${detailsString}}')`;
+	console.log(insertStatement);
+  var request = new mssql.Request();
+  request.query(insertStatement, function (err, result) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+      res.send("success");      
   }); 
 });
 
