@@ -4,6 +4,38 @@ var mssql = require('mssql')
 var connection = require("./mssql");
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
+var router = express.Router();
+
+
+// wx pay
+var tenpay = require('tenpay');
+const config = {
+  appid: 'wx5322fd632feee9b2',
+  mchid: 'e0704e11c8c3da3e30ec3369eb895343',
+  partnerKey: '微信支付安全密钥',
+  // pfx: require('fs').readFileSync('证书文件路径'),
+  // notify_url: '支付回调网址',
+  // spbill_create_ip: 'IP地址'
+};
+// 方式一
+const api = tenpay.init(config);
+
+app.use(bodyParser.text({type: '*/xml'}));
+
+router.post('/api/wxpay', api.middlewareForExpress('pay'), (req, res) => {
+	let info = req.weixin;
+	
+	let result = api.getPayParams({
+		out_trade_no: info.orderId,
+		body: info.description,
+		total_fee: info.fee,
+		openid: info.openid
+	});
+
+	res.send(result);
+});
+
+// end wx pay
 
 app.get('/', function (req, res) {
   res.send('Hello World');
@@ -121,7 +153,7 @@ app.post('/api/order/:orderId', function (req, res) {
 	}
 
   var request = new mssql.Request();
-  request.query('SELECT Orders.DateTime, Orders.Details FROM Orders JOIN Users ON Users.Id = Orders.UserId WHERE Orders.Id = ' + orderId, function (err, result) {
+  request.query('SELECT Orders.DateTime, Orders.Details, Orders.TableName, Orders.Paid FROM Orders JOIN Users ON Users.Id = Orders.UserId WHERE Orders.Id = ' + orderId, function (err, result) {
 			if (err) {
 				res.send(err);
 				return;
@@ -159,6 +191,7 @@ app.post('/api/submit/order', jsonParser, function (req, res) {
 	var userid = req.body.userId;
 	var restaurantname = req.body.restaurantName
 	var details = req.body.details;
+	var tablename = req.body.table;
 
 	if (!restaurantid) {
 		res.send("Invalid restaurantid");
@@ -172,6 +205,9 @@ app.post('/api/submit/order', jsonParser, function (req, res) {
 	} else if (!details) {
 		res.send("invalid details")
 		return;
+	} else if (!tablename) {
+		res.send("invalid table");
+		return;
 	}
 
 	var detailsString = JSON.stringify(details);
@@ -184,7 +220,7 @@ app.post('/api/submit/order', jsonParser, function (req, res) {
 	("00" + d.getSeconds()).slice(-2) + ":000";
 
 	var orderid = `${userid}-${restaurantid}-${dateString}`
-	var insertStatement = `INSERT INTO dbo.Orders VALUES ('${orderid}', ${userid}, '${dateString}', ${restaurantid}, '${restaurantname}', '{details:${detailsString}}', 0)`;
+	var insertStatement = `INSERT INTO dbo.Orders VALUES ('${orderid}', ${userid}, '${dateString}', ${restaurantid}, '${restaurantname}', '{details:${detailsString}}', 0, '${tablename}')`;
 	console.log(insertStatement);
   var request = new mssql.Request();
   request.query(insertStatement, function (err, result) {
