@@ -132,12 +132,33 @@ app.post('/api/order/:orderId', function (req, res) {
   }); 
 });
 
+app.post('/api/submit/pay', jsonParser, function (req, res) {
+	var orderId = req.body.orderId;
+
+	if (!orderId) {
+		res.send("Invalid orderId");
+		return;
+	}
+
+  var request = new mssql.Request();
+	var insertStatement = `UPDATE dbo.Orders SET Paid = 1 WHERE OrderId = '${orderId}'`;
+	console.log(insertStatement)
+  var request = new mssql.Request();
+  request.query(insertStatement, function (err, result) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+      res.send("success");      
+  }); 
+});
+
 app.post('/api/submit/order', jsonParser, function (req, res) {
 	var restaurantid = req.body.restaurantId;
 	var userid = req.body.userId;
 	var restaurantname = req.body.restaurantName
 	var details = req.body.details;
-	// DishId : "", Quantity: "4"
 
 	if (!restaurantid) {
 		res.send("Invalid restaurantid");
@@ -162,7 +183,8 @@ app.post('/api/submit/order', jsonParser, function (req, res) {
 	("00" + d.getMinutes()).slice(-2) + ":" + 
 	("00" + d.getSeconds()).slice(-2) + ":000";
 
-	var insertStatement = `INSERT INTO dbo.Orders VALUES (${userid}, '${dateString}', ${restaurantid}, '${restaurantname}', '{details:${detailsString}}')`;
+	var orderid = `${userid}-${restaurantid}-${dateString}`
+	var insertStatement = `INSERT INTO dbo.Orders VALUES ('${orderid}', ${userid}, '${dateString}', ${restaurantid}, '${restaurantname}', '{details:${detailsString}}', 0)`;
 	console.log(insertStatement);
   var request = new mssql.Request();
   request.query(insertStatement, function (err, result) {
@@ -171,7 +193,7 @@ app.post('/api/submit/order', jsonParser, function (req, res) {
 				return;
 			}
 
-      res.send("success");      
+      res.send({status: "success", orderId: orderid});      
   }); 
 });
 
@@ -277,13 +299,14 @@ app.get('/api/testtt', function (req, res) {
 
 // wx login stuff
 // 微信登录
-app.post('/user/getOpenId/:code', function (req, res) {
+app.post('/api/user/getOpenId', jsonParser, function (req, res) {
 	// 取到传入的code参数
-	var code = req.params.code;
+	var code = req.body.code;
 	//code: 081nSMli15zTzz0TT6mi1rPAli1nSMlY
 	// 设定小程序appid appsecret
-	var APPID = 'wx9114b997bd86f8ed';
-	var SECRET = 'd27551c7803cf16015e536b192d5d03b';
+	var APPID = 'wx5322fd632feee9b2';
+	var SECRET = 'e0704e11c8c3da3e30ec3369eb895343';
+
 	// 拼接请求地址
 	var url = 'https://api.weixin.qq.com/sns/jscode2session?appid='+APPID+'&secret='+SECRET+'&js_code='+code+'&grant_type=authorization_code';
 	// 向微信请求openid等信息
