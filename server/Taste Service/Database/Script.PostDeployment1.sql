@@ -27,6 +27,6 @@ Post-Deployment Script Template
   INSERT INTO dbo.Users VALUES ('jasonwang', 'Jason Wang');
   INSERT INTO dbo.Users VALUES ('hongyao', 'Hongyao Zhang');
 
-  INSERT INTO dbo.Orders VALUES (1, '2007-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "2", Quantity: "5"}, {DishId: "1", Quantity: "1"}]}');
-  INSERT INTO dbo.Orders VALUES (1, '2007-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "2", Quantity: "5"}, {DishId: "1", Quantity: "1"}]}');
-  INSERT INTO dbo.Orders VALUES (2, '2007-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "1", Quantity: "1"}, {DishId: "1", Quantity: "1"}]}');
+  INSERT INTO dbo.Orders VALUES ('1_1_2007-05-08 12:35:29.123', 1, '2007-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "2", Quantity: "5"}, {DishId: "1", Quantity: "1"}]}', 0);
+  INSERT INTO dbo.Orders VALUES ('1_1_2008-05-08 12:35:29.123', 1, '2008-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "2", Quantity: "5"}, {DishId: "1", Quantity: "1"}]}', 0);
+  INSERT INTO dbo.Orders VALUES ('2_1_2007-05-08 12:35:29.123', 2, '2007-05-08 12:35:29.123', 1, 'Coffee shop','{Details:[{DishId: "1", Quantity: "1"}, {DishId: "1", Quantity: "1"}]}', 0);
